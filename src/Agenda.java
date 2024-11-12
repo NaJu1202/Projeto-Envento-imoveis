@@ -3,6 +3,12 @@ public class Agenda {
     private String nome;
     private String tel;
     
+    public Agenda() {
+        this.codigo = 0;
+        this.nome = "";
+        this.tel = "";
+    }
+
     public Agenda (int codigo, String nome, String tel){
         this.codigo = codigo;
         this.nome = nome;
