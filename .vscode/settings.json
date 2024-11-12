@@ -1,0 +1,15 @@
+{
+    "[java]": {
+        "editor.formatOnSave": true, // Formata o código automaticamente ao salvar
+        "editor.tabSize": 4, // Define o tamanho da indentação (neste caso, 4 espaços)
+        "editor.insertSpaces": true, // Usa espaços em vez de tabs
+        "editor.defaultFormatter": "redhat.java" // Define o formatador padrão para Java
+    },
+    "java.project.sourcePaths": [
+        "src"
+    ], // Caminho da pasta de origem
+    "java.project.outputPath": "bin", // Caminho da pasta de saída
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar" // Bibliotecas referenciadas
+    ]
+}
