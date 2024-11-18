@@ -38,7 +38,6 @@ public class AgendaMain {
         System.exit(0);
     }
 
-    // continua no próximo slide
     static char menu() {
         System.out.println("\n\nEscolha uma Opção:\n" +
                 "1. Inserir novo contato\n" +
@@ -48,7 +47,6 @@ public class AgendaMain {
                 "5. Sair");
         return scan.next().charAt(0);
     }
-    // continua no próximo slide
 
     // este método server para atualizar a variável memoria com os dados que estão
     // no HD
@@ -72,7 +70,6 @@ public class AgendaMain {
         }
     }
 
-    // continua no próximo slide
     // este método grava os dados na memória segundária(HD, pendrive)
     public static void gravarDados() {
         try {
@@ -86,7 +83,6 @@ public class AgendaMain {
         }
     }
 
-    // continua no próximo slide
     static void inserirDados() {
         int codigo;
         String nome, telefone;
@@ -105,7 +101,6 @@ public class AgendaMain {
         }
     }
 
-    // continua no próximo slide
     public static void alterarDados() {
         String codigo, nome, telefone;
         int inicio, fim, ultimo, primeiro;
@@ -147,7 +142,6 @@ public class AgendaMain {
         }
     }
 
-    // continua no próximo slide
     public static void excluirDados() {
         String codigo, nome, telefone;
         int inicio, fim, ultimo, primeiro, procura;
@@ -189,7 +183,7 @@ public class AgendaMain {
         } else {
             System.out.println("\narquivo vazio");
         }
-    } // continua no próximo slide
+    }
 
     public static void consultarDados() {
         String codigo, nome, telefone;
