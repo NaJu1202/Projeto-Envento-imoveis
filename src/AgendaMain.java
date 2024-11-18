@@ -106,21 +106,28 @@ public class AgendaMain {
         int inicio, fim, ultimo, primeiro;
         boolean achou = false;
         int procura;
+
         iniciarArquivo(); // atualizar a variavel memoria para iniciar a pesquisa
+
         if (memoria.length() != 0) { // não está vazia
             System.out.println("\nDigite o codigo para alteração:");
             procura = scan.nextInt();
             inicio = 0; // inicio começa na posição 0
+
             while ((inicio != memoria.length()) && (!achou)) {
                 ultimo = memoria.indexOf("\t", inicio);
                 codigo = memoria.substring(inicio, ultimo);
+
                 primeiro = ultimo + 1;
                 ultimo = memoria.indexOf("\t", primeiro);
                 nome = memoria.substring(primeiro, ultimo);
+
                 primeiro = ultimo + 1;
                 fim = memoria.indexOf("\n", primeiro);
                 telefone = memoria.substring(primeiro, fim);
+
                 Agenda reg = new Agenda(Integer.parseInt(codigo), nome, telefone);
+
                 if (procura == reg.getCodigo()) {
                     System.out.println("\nCódigo: " + reg.getCodigo() +
                             " nome: " + reg.getNome() + " telefone: " + reg.getTel());
@@ -147,11 +154,14 @@ public class AgendaMain {
         int inicio, fim, ultimo, primeiro, procura;
         boolean achou = false;
         char resp;
+
         iniciarArquivo(); // atualizar a variavel memoria para iniciar a pesquisa
+
         if (memoria.length() != 0) { // não está vazia
             System.out.println("\nDigite o codigo para exclusão:");
             procura = scan.nextInt();
             inicio = 0; // inicio começa na posição 0 da variável memoria
+
             while ((inicio != memoria.length()) && (!achou)) {
                 ultimo = memoria.indexOf("\t", inicio);
                 codigo = memoria.substring(inicio, ultimo);
@@ -162,6 +172,7 @@ public class AgendaMain {
                 fim = memoria.indexOf("\n", primeiro);
                 telefone = memoria.substring(primeiro, fim);
                 Agenda reg = new Agenda(Integer.parseInt(codigo), nome, telefone);
+
                 if (procura == reg.getCodigo()) {
                     System.out.println("Deseja excluir?" + "\n" + "Digite S ou N" + "\n\n" +
                             "Código: " + reg.getCodigo() + " nome: " + reg.getNome() + " telefone: " + reg.getTel());
@@ -190,11 +201,14 @@ public class AgendaMain {
         int inicio, fim, ultimo, primeiro;
         boolean achou = false;
         int procura;
+
         iniciarArquivo(); // atualizar a variavel memoria para iniciar a pesquisa
+
         if (memoria.length() != 0) { // não está vazia
             System.out.println("\nDigite o codigo para pesquisar:");
             procura = scan.nextInt();
             inicio = 0;
+
             while ((inicio != memoria.length()) && (!achou)) {
                 ultimo = memoria.indexOf("\t", inicio);
                 codigo = memoria.substring(inicio, ultimo);
