@@ -2,26 +2,20 @@ public class Cliente {
     private int id;
     private String nome;
     private int telefone;
-    private String email;
-    private int cpf;
-    private int cep;
+    private int codigoImovel;
 
     public Cliente() {
         this.id = 0;
         this.nome = "";
         this.telefone = 0;
-        this.email = "";
-        this.cpf = 0;
-        this.cep = 0;
+        this.codigoImovel = 0;
     }
 
-    public Cliente(int id, String nome, int telefone, String email, int cpf, int cep) {
+    public Cliente(int id, String nome, int telefone, String email, int codigoImovel, int cep) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
-        this.email = email;
-        this.cpf = cpf;
-        this.cep = cep;
+        this.codigoImovel = codigoImovel;
     }
 
     // gets
@@ -37,16 +31,8 @@ public class Cliente {
         return this.telefone;
     }
 
-    public String getEmail() {
-        return this.email;
-    }
-
-    public int getCpf() {
-        return this.cpf;
-    }
-
-    public int getCep() {
-        return this.cep;
+    public int getCodigoImovel() {
+        return this.codigoImovel;
     }
 
     public void setId(int id) {
@@ -61,21 +47,11 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCodigoImovel(int codigoImovel) {
+        this.codigoImovel = codigoImovel;
     }
 
-    public void setCpf(int cpf) {
-        this.cpf = cpf;
-    }
-
-    public void setCep(int cep) {
-        this.cep = cep;
-    }
-
-    @Override
     public String toString() {
-        return "Cliente [id=" + id + ", nome=" + nome + ", telefone=" + telefone + ", email=" + email + ", cpf=" + cpf
-                + ", cep=" + cep + "]";
+        return this.id + "\t" + this.nome + "\t" + this.telefone + "\t" + this.codigoImovel;
     }
 }

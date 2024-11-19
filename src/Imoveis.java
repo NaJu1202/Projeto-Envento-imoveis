@@ -1,62 +1,29 @@
 public class Imoveis {
-    private int id;
-    private String rua;
-    private int numero;
-    private String bairro;
+    private int codigo;
     private String cidade;
     private String uf;
-    private int cep;
+    private String tipoImovel;
 
     public Imoveis() {
-        this.id = 0;
-        this.rua = "";
-        this.numero = 0;
-        this.bairro = "";
+        this.codigo = 0;
         this.cidade = "";
         this.uf = "";
-        this.cep = 0;
+        this.tipoImovel = "";
     }
 
-    public Imoveis(int id, String rua, int numero, String bairro, String cidade, String uf, int cep) {
-        this.id = id;
-        this.rua = rua;
-        this.numero = numero;
-        this.bairro = bairro;
+    public Imoveis(int id, String cidade, String uf, String tipoImovel) {
+        this.codigo = id;
         this.cidade = cidade;
         this.uf = uf;
-        this.cep = cep;
+        this.tipoImovel = tipoImovel;
     }
 
-    public int getId() {
-        return this.id;
+    public int getCodigo() {
+        return this.codigo;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getRua() {
-        return this.rua;
-    }
-
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public int getNumero() {
-        return this.numero;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public String getBairro() {
-        return this.bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public void setCodigo(int id) {
+        this.codigo = id;
     }
 
     public String getCidade() {
@@ -75,11 +42,15 @@ public class Imoveis {
         this.uf = uf;
     }
 
-    public int getCep() {
-        return this.cep;
+    public String getTipoImovel() {
+        return this.tipoImovel;
     }
 
-    public void setCep(int cep) {
-        this.cep = cep;
+    public void setTipoImovel(String tipoImovel) {
+        this.tipoImovel = tipoImovel;
+    }
+
+    public String toString() {
+        return codigo + "\t" + cidade + "\t" + uf + "\t" + tipoImovel;
     }
 }
