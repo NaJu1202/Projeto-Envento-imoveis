@@ -43,10 +43,10 @@ public class EventoMain {
     }
 
     // este método grava os dados na memória segundária(HD, pendrive)
-    public static void gravarClientes() {
+    public static void gravarArquivo(String arquivo) {
         try {
             BufferedWriter arquivoSaida;
-            arquivoSaida = new BufferedWriter(new FileWriter("ClientesEvento.txt"));
+            arquivoSaida = new BufferedWriter(new FileWriter(arquivo));
             arquivoSaida.write(memoria.toString());
             arquivoSaida.flush();
             arquivoSaida.close();
@@ -55,15 +55,22 @@ public class EventoMain {
         }
     }
 
-    public static void gravarImoveis() {
+    static void inserirImoveis(Imoveis imoveis) {
         try {
-            BufferedWriter arquivoSaida;
-            arquivoSaida = new BufferedWriter(new FileWriter("ImoveisEvento.txt"));
-            arquivoSaida.write(memoria.toString());
-            arquivoSaida.flush();
-            arquivoSaida.close();
+            System.out.println("Insira o Código do imovel: ");
+            imoveis.setCodigo(scan.nextInt());
+            System.out.println("Insira a Cidade: ");
+            imoveis.setCidade(scan.next());
+            System.out.println("Insira a UF");
+            imoveis.setUf(scan.next());
+            System.out.println("Insira o Tipo do imóvel");
+            imoveis.setTipoImovel(scan.next());
+
+            memoria.append(imoveis.toString()); // inserir uma nova linha no final
+            gravarArquivo("imoveis.txt"); // grava alteração no HD
+
         } catch (Exception e) {
-            System.out.println("\nErro de gravacao!");
+            System.out.println("\nERRO de inserção");
         }
     }
 
@@ -79,28 +86,8 @@ public class EventoMain {
             cliente.setCodigoImovel(scan.nextInt());
 
             memoria.append(cliente.toString()); // inserir uma nova linha no final
-            gravarClientes(); // grava alteração no HD
-        } catch (Exception e) {
-            System.out.println("\nERRO de inserção");
-        }
-    }
+            gravarArquivo("clientes.txt"); // grava alteração no HD
 
-    static void inserirImoveis(Imoveis imoveis) {
-        try {
-            System.out.println("Insira o Código do imovel: ");
-            imoveis.setCodigo(scan.nextInt());
-
-            System.out.println("Insira a Cidade: ");
-            imoveis.setCidade(scan.next());
-
-            System.out.println("Insira a UF");
-            imoveis.setUf(scan.next());
-
-            System.out.println("Insira o Tipo do imóvel");
-            imoveis.setTipoImovel(scan.next());
-
-            memoria.append(imoveis.toString()); // inserir uma nova linha no final
-            gravarImoveis(); // grava alteração no HD
         } catch (Exception e) {
             System.out.println("\nERRO de inserção");
         }
