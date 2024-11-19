@@ -91,7 +91,7 @@ public class EventoMain {
             imoveis.setCodigo(scan.nextInt());
 
             System.out.println("Insira a Cidade: ");
-            imoveis.setCidade(scan.nextLine());
+            imoveis.setCidade(scan.next());
 
             System.out.println("Insira a UF");
             imoveis.setUf(scan.next());
