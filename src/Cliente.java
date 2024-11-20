@@ -52,6 +52,6 @@ public class Cliente {
     }
 
     public String toString() {
-        return this.id + "\t" + this.nome + "\t" + this.telefone + "\t" + this.codigoImovel;
+        return this.id + "\t" + this.nome + "\t" + this.telefone + "\t" + this.codigoImovel + "\n";
     }
 }
