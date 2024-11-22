@@ -11,7 +11,7 @@ public class Cliente {
         this.codigoImovel = 0;
     }
 
-    public Cliente(int id, String nome, int telefone, String email, int codigoImovel, int cep) {
+    public Cliente(int id, String nome, int telefone, int codigoImovel) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
@@ -52,6 +52,6 @@ public class Cliente {
     }
 
     public String toString() {
-        return this.id + "\t" + this.nome + "\t" + this.telefone + "\t" + this.codigoImovel;
+        return this.id + "\t" + this.nome + "\t" + this.telefone + "\t" + this.codigoImovel + "\n";
     }
 }
