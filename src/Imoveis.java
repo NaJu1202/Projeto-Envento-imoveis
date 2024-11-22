@@ -51,6 +51,6 @@ public class Imoveis {
     }
 
     public String toString() {
-        return codigo + "\t" + cidade + "\t" + uf + "\t" + tipoImovel;
+        return codigo + "\t" + cidade + "\t" + uf + "\t" + tipoImovel + "\n";
     }
 }
