@@ -54,7 +54,7 @@ public class EventoMain {
                     System.out.println("Opção inválida");
                     break;
             }
-        } while (opcao != '7');
+        } while (opcao != '8');
     }
     // este método grava os dados na memória segundária(HD, pendrive)
     public static void gravarArquivo(String arquivo, boolean append_mode) { // append_mode = boolean, pq ao modificar
@@ -75,11 +75,12 @@ public class EventoMain {
         try {
             System.out.println("Insira o Código do imovel: ");
             imoveis.setCodigo(scan.nextInt());
+            scan.nextLine(); // com esta linha consegue ler a cidade com espaços
             System.out.println("Insira a Cidade: ");
-            imoveis.setCidade(scan.next());
-            System.out.println("Insira a UF");
+            imoveis.setCidade(scan.nextLine());
+            System.out.println("Insira a UF:");
             imoveis.setUf(scan.next());
-            System.out.println("Insira o Tipo do imóvel");
+            System.out.println("Insira o Tipo do imóvel:");
             imoveis.setTipoImovel(scan.next());
 
             memoria.append(imoveis.toString()); // inserir uma nova linha no final
@@ -94,13 +95,14 @@ public class EventoMain {
     }
     static void inserirCliente(Cliente cliente) {
         try {
-            System.out.println("Insira o ID");
+            System.out.println("Insira o ID:");
             cliente.setId(scan.nextInt());
-            System.out.println("Insira o nome");
-            cliente.setNome(scan.next());
-            System.out.println("Insira o telefone");
+            scan.nextLine(); // com esta linha consegue ler a cidade com espaços
+            System.out.println("Insira o nome:");
+            cliente.setNome(scan.nextLine());
+            System.out.println("Insira o telefone:");
             cliente.setTelefone(scan.next());
-            System.out.println("Insira o codigo do imovel");
+            System.out.println("Insira o codigo do imovel:");
             cliente.setCodigoImovel(scan.nextInt());
 
             memoria.append(cliente.toString()); // inserir uma nova linha no final
@@ -238,6 +240,56 @@ public class EventoMain {
                             "| Nome: " + cliente_pesquisa.getNome() + "| Telefone: "
                             + cliente_pesquisa.getTelefone()
                             + "| Código do imovel: " + cliente_pesquisa.getCodigoImovel());
+
+                    ligarImovelAoCliente(cliente_pesquisa.getCodigoImovel());
+                    achou = true;
+                }
+                inicio = fim + 1; // continua procurando o código da pessoa
+            }
+            if (!achou) {
+                System.out.println("\ncódigo não encontrado");
+            }
+        } else {
+            System.out.println("\narquivo vazio");
+        }
+    }
+
+    public static void ligarImovelAoCliente(int codigoImovel) {
+        String codigo, cidade, uf, tipoImovel;
+        int inicio, fim, ultimo, primeiro;
+        boolean achou = false;
+
+        iniciarArquivo("imoveis.txt"); // atualizar a variavel memoria para iniciar a pesquisa
+
+        if (memoria.length() != 0) { // não está vazia
+            inicio = 0;
+
+            while ((inicio != memoria.length()) && (!achou)) {
+
+                ultimo = memoria.indexOf("\t", inicio);
+                codigo = memoria.substring(inicio, ultimo);
+                primeiro = ultimo + 1;
+
+                ultimo = memoria.indexOf("\t", primeiro);
+                cidade = memoria.substring(primeiro, ultimo);
+                primeiro = ultimo + 1;
+
+                ultimo = memoria.indexOf("\t", primeiro);
+                uf = memoria.substring(primeiro, ultimo);
+                primeiro = ultimo + 1;
+
+                fim = memoria.indexOf("\n", primeiro);
+                tipoImovel = memoria.substring(primeiro, fim);
+
+                Imoveis imovel_pesquisa = new Imoveis(Integer.parseInt(codigo), cidade, uf,
+                        tipoImovel);
+
+                if (codigoImovel == imovel_pesquisa.getCodigo()) {
+
+                    System.out.println("Código do imovel: " + imovel_pesquisa.getCodigo() +
+                            "| Cidade: " + imovel_pesquisa.getCidade() + "| Uf: "
+                            + imovel_pesquisa.getUf()
+                            + "| Tipo do imovel: " + imovel_pesquisa.getTipoImovel() + "\n");
                     achou = true;
                 }
                 inicio = fim + 1; // continua procurando o código da pessoa
