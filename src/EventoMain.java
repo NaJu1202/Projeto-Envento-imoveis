@@ -18,6 +18,7 @@ public class EventoMain {
         System.out.println("\nSeja bem vindo ao evento de Imóveis!\n");
 
         do {
+            memoria.delete(0, memoria.length());
             System.out.println("Escolha a opção :)\n");
             System.out.println("1 - Inserir o imóvel\n" +
                     "2 - Inserir o cliente\n" +
@@ -41,11 +42,13 @@ public class EventoMain {
                 case '4':
                     break;
                 case '5':
+                    pesquiaGeralDeImoveis();
                     break;
                 case '6':
+                    pesquiaGeralDeClientes();
                     break;
                 case '7':
-                    consultarDadosExpecificos();
+                    consultarClienteEspecifico();
                     break;
                 case '8':
                     System.out.println("<----- Encerrando o programa ----->");
@@ -85,7 +88,7 @@ public class EventoMain {
 
             memoria.append(imoveis.toString()); // inserir uma nova linha no final
             gravarArquivo("imoveis.txt", true); // grava alteração no HD
-            memoria.delete(0, memoria.length());
+            // memoria.delete(0, memoria.length());
 
         } catch (InputMismatchException e) {
             System.out.println("\nERRO ao inserir imóvel - dados invalidos");
@@ -95,9 +98,11 @@ public class EventoMain {
     }
     static void inserirCliente(Cliente cliente) {
         try {
+            // memoria.delete(0, memoria.length());
+
             System.out.println("Insira o ID:");
             cliente.setId(scan.nextInt());
-            scan.nextLine(); // com esta linha consegue ler a cidade com espaços
+            scan.nextLine(); // com esta linha consegue ler o nome com espaços
             System.out.println("Insira o nome:");
             cliente.setNome(scan.nextLine());
             System.out.println("Insira o telefone:");
@@ -107,7 +112,6 @@ public class EventoMain {
 
             memoria.append(cliente.toString()); // inserir uma nova linha no final
             gravarArquivo("clientes.txt", true); // grava alteração no HD
-            memoria.delete(0, memoria.length());
 
         } catch (InputMismatchException e) {
             System.out.println("\nERRO ao inserir imóvel - dados invalidos");
@@ -122,7 +126,8 @@ public class EventoMain {
             BufferedReader arquivoEntrada;
             arquivoEntrada = new BufferedReader(new FileReader(arquivo));
             String linha = "";
-            memoria.delete(0, memoria.length());// apaga tudo que está na variável memoria
+            // memoria.delete(0, memoria.length());// apaga tudo que está na variável
+            // memoria
             do {
                 linha = arquivoEntrada.readLine();
                 if (linha != null) {
@@ -172,9 +177,9 @@ public class EventoMain {
                     if (procura == cliente_modificado.getId()) {
 
                         System.out.println("\nCódigo: " + cliente_modificado.getId() +
-                                "| Nome: " + cliente_modificado.getNome() + "| Telefone: "
+                                " | Nome: " + cliente_modificado.getNome() + " | Telefone: "
                                 + cliente_modificado.getTelefone()
-                                + "| Código do imovel: " + cliente_modificado.getCodigoImovel());
+                                + " | Código do imovel: " + cliente_modificado.getCodigoImovel());
 
                         System.out.println("Entre com novo telefone:");
                         cliente_modificado.setTelefone(scan.next());
@@ -201,7 +206,7 @@ public class EventoMain {
         }
     }
 
-    public static void consultarDadosExpecificos() {
+    public static void consultarClienteEspecifico() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro;
         boolean achou = false;
@@ -237,9 +242,9 @@ public class EventoMain {
                 if (procura == cliente_pesquisa.getId()) {
 
                     System.out.println("\nCódigo: " + cliente_pesquisa.getId() +
-                            "| Nome: " + cliente_pesquisa.getNome() + "| Telefone: "
+                            " | Nome: " + cliente_pesquisa.getNome() + " | Telefone: "
                             + cliente_pesquisa.getTelefone()
-                            + "| Código do imovel: " + cliente_pesquisa.getCodigoImovel());
+                            + " | Código do imovel: " + cliente_pesquisa.getCodigoImovel());
 
                     ligarImovelAoCliente(cliente_pesquisa.getCodigoImovel());
                     achou = true;
@@ -287,15 +292,97 @@ public class EventoMain {
                 if (codigoImovel == imovel_pesquisa.getCodigo()) {
 
                     System.out.println("Código do imovel: " + imovel_pesquisa.getCodigo() +
-                            "| Cidade: " + imovel_pesquisa.getCidade() + "| Uf: "
+                            " | Cidade: " + imovel_pesquisa.getCidade() + " | Uf: "
                             + imovel_pesquisa.getUf()
-                            + "| Tipo do imovel: " + imovel_pesquisa.getTipoImovel() + "\n");
+                            + " | Tipo do imovel: " + imovel_pesquisa.getTipoImovel() + "\n");
                     achou = true;
                 }
                 inicio = fim + 1; // continua procurando o código da pessoa
             }
             if (!achou) {
                 System.out.println("\ncódigo não encontrado");
+            }
+        } else {
+            System.out.println("\narquivo vazio");
+        }
+    }
+
+    public static void pesquiaGeralDeImoveis() {
+        String codigo, cidade, uf, tipoImovel;
+        int inicio, fim, ultimo, primeiro;
+
+        iniciarArquivo("imoveis.txt"); // atualizar a variavel memoria para iniciar a pesquisa
+
+        if (memoria.length() != 0) { // não está vazia
+            inicio = 0;
+
+            while ((inicio != memoria.length())) {
+
+                ultimo = memoria.indexOf("\t", inicio);
+                codigo = memoria.substring(inicio, ultimo);
+                primeiro = ultimo + 1;
+
+                ultimo = memoria.indexOf("\t", primeiro);
+                cidade = memoria.substring(primeiro, ultimo);
+                primeiro = ultimo + 1;
+
+                ultimo = memoria.indexOf("\t", primeiro);
+                uf = memoria.substring(primeiro, ultimo);
+                primeiro = ultimo + 1;
+
+                fim = memoria.indexOf("\n", primeiro);
+                tipoImovel = memoria.substring(primeiro, fim);
+
+                Imoveis imovel_pesquisa = new Imoveis(Integer.parseInt(codigo), cidade, uf,
+                        tipoImovel);
+
+                System.out.println("Código do imovel: " + imovel_pesquisa.getCodigo() +
+                        " | Cidade: " + imovel_pesquisa.getCidade() + " | Uf: "
+                        + imovel_pesquisa.getUf()
+                        + " | Tipo do imovel: " + imovel_pesquisa.getTipoImovel() + "\n");
+
+                inicio = fim + 1; // continua procurando o código da pessoa
+            }
+        } else {
+            System.out.println("\narquivo vazio");
+        }
+    }
+
+    public static void pesquiaGeralDeClientes() {
+        String id, nome, telefone, codigoImovel;
+        int inicio, fim, ultimo, primeiro;
+
+        iniciarArquivo("clientes.txt"); // atualizar a variavel memoria para iniciar a pesquisa
+
+        if (memoria.length() != 0) { // não está vazia
+            inicio = 0;
+
+            while ((inicio != memoria.length())) {
+
+                ultimo = memoria.indexOf("\t", inicio);
+                id = memoria.substring(inicio, ultimo);
+
+                primeiro = ultimo + 1;
+                ultimo = memoria.indexOf("\t", primeiro);
+                nome = memoria.substring(primeiro, ultimo);
+
+                primeiro = ultimo + 1;
+                ultimo = memoria.indexOf("\t", primeiro);
+                telefone = memoria.substring(primeiro, ultimo);
+
+                primeiro = ultimo + 1;
+                fim = memoria.indexOf("\n", primeiro);
+                codigoImovel = memoria.substring(primeiro, fim);
+
+                Cliente cliente_pesquisa = new Cliente(Integer.parseInt(id), nome, telefone,
+                        Integer.parseInt(codigoImovel));
+
+                System.out.println("\nCódigo: " + cliente_pesquisa.getId() +
+                        " | Nome: " + cliente_pesquisa.getNome() + " | Telefone: "
+                        + cliente_pesquisa.getTelefone()
+                        + "| Código do imovel: " + cliente_pesquisa.getCodigoImovel());
+
+                inicio = fim + 1; // continua procurando o código da pessoa
             }
         } else {
             System.out.println("\narquivo vazio");

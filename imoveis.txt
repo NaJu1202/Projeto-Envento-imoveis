@@ -1,0 +1,4 @@
+1	Vila Velha	ES	Casa
+2	Serra	ES	Apartamento
+3	Nova Almeida	ES	Casa
+4	Rio de Janeiro	RJ	Casa
