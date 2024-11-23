@@ -62,7 +62,6 @@ public class EventoMain {
             }
         } while (opcao != '8');
     }
-    // este método grava os dados na memória segundária(HD, pendrive)
     public static void gravarArquivo(String arquivo, boolean append_mode) { // append_mode = boolean, pq ao modificar
                                                                             // dados estava dando append
         try {
@@ -96,8 +95,8 @@ public class EventoMain {
             System.out.println("Insira o Tipo do imóvel:");
             imoveis.setTipoImovel(scan.next());
 
-            memoria.append(imoveis.toString()); // inserir uma nova linha no final
-            gravarArquivo("imoveis.txt", true); // grava alteração no HD
+            memoria.append(imoveis.toString());
+            gravarArquivo("imoveis.txt", true);
 
 
         } catch (InputMismatchException e) {
@@ -123,8 +122,8 @@ public class EventoMain {
             System.out.println("Insira o codigo do imovel:");
             cliente.setCodigoImovel(scan.nextInt());
 
-            memoria.append(cliente.toString()); // inserir uma nova linha no final
-            gravarArquivo("clientes.txt", true); // grava alteração no HD
+            memoria.append(cliente.toString());
+            gravarArquivo("clientes.txt", true);
 
         } catch (InputMismatchException e) {
             System.out.println("\nERRO ao inserir imóvel - dados invalidos");
@@ -200,7 +199,7 @@ public class EventoMain {
                         cliente_modificado.setTelefone(scan.next());
 
                         memoria.replace(inicio, fim + 1, cliente_modificado.toString()); // alterar dados na memoria
-                        gravarArquivo("clientes.txt", false); // grava alteração no HD
+                        gravarArquivo("clientes.txt", false);
                         achou = true;
                     }
                     inicio = fim + 1; // continua procurando o código da pessoa
