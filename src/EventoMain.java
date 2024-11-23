@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class EventoMain {
     static StringBuffer memoria = new StringBuffer();
-    static StringBuffer memoria2 = new StringBuffer();
     static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -34,7 +33,7 @@ public class EventoMain {
                     inserirCliente(cliente);
                     break;
                 case '3':
-                    alterarDados();
+                    alterarDadosCliente();
                     break;
                 case '4':
                     break;
@@ -127,7 +126,7 @@ public class EventoMain {
         }
     }
 
-    public static void alterarDados() {
+    public static void alterarDadosCliente() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro;
         boolean achou = false;
