@@ -77,6 +77,8 @@ public class EventoMain {
             System.out.println("\nErro de gravacao!");
         }
     }
+
+    // ----- INSERIR DADOS -----
     static void inserirImoveis(Imoveis imoveis) {
         try {
             System.out.println("Insira o Código do imovel: ");
@@ -130,8 +132,9 @@ public class EventoMain {
             System.out.println("\nERRO ao inserir cliente");
         }
     }
-    // este método server para atualizar a variável memoria com os dados que estão
-    // no HD
+    // ----- FIM DA INSERÇÃO DADOS -----
+
+    // ----- INICIAR ARQUIVO -----
     static void iniciarArquivo(String arquivo) {
         try {
             BufferedReader arquivoEntrada;
@@ -151,6 +154,8 @@ public class EventoMain {
             System.out.println("\nErro de Leitura!");
         }
     }
+
+    // ----- ALTERAÇÕES DE DADOS -----
     public static void alterarDadosCliente() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -215,7 +220,9 @@ public class EventoMain {
             System.out.println("Erro ao modificar dados");
         }
     }
+    // ----- FIM DA ALTERAÇÃO DE DADOS -----
 
+    // ----- CONSULTA DE DADOS -----
     public static void consultarClienteEspecifico() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -268,7 +275,9 @@ public class EventoMain {
             System.out.println("\narquivo vazio");
         }
     }
+    // ----- FIM DA CONSULTA DE DADOS -----
 
+    // ----- LIGAR IMÓVEL AO CLIENTE -----
     public static void ligarImovelAoCliente(int codigoImovel) {
         String codigo, cidade, uf, tipoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -316,7 +325,9 @@ public class EventoMain {
             System.out.println("\narquivo vazio");
         }
     }
+    // ----- FIM DA LIGAÇÃO DE DADOS -----
 
+    // ----- PESQUISA DE DADOS -----
     public static void pesquisaGeralDeImoveis() {
         String codigo, cidade, uf, tipoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -398,4 +409,5 @@ public class EventoMain {
             System.out.println("\narquivo vazio");
         }
     }
+    // ----- FIM DAS PESQUISAS DE DADOS -----
 }
