@@ -52,6 +52,9 @@ public class EventoMain {
                     break;
                 case '8':
                     System.out.println("<----- Encerrando o programa ----->");
+                    System.out.println(
+                            "   Programa feito por:\n" + "\n\tAnna Julia Aleixo\n" + "\tAnderson Moreira\n"
+                                    + "\tMayara Hafez\n");
                     break;
                 default:
                     System.out.println("Opção inválida");
@@ -78,6 +81,11 @@ public class EventoMain {
         try {
             System.out.println("Insira o Código do imovel: ");
             imoveis.setCodigo(scan.nextInt());
+            if (imoveis.getCodigo() < 0) {
+                System.out.println("ID inválido! O código não pode ser negativo.");
+                System.out.println("Insira um ID válido:");
+                imoveis.setCodigo(scan.nextInt());
+            }
             scan.nextLine(); // com esta linha consegue ler a cidade com espaços
             System.out.println("Insira a Cidade: ");
             imoveis.setCidade(scan.nextLine());
@@ -88,7 +96,7 @@ public class EventoMain {
 
             memoria.append(imoveis.toString()); // inserir uma nova linha no final
             gravarArquivo("imoveis.txt", true); // grava alteração no HD
-            // memoria.delete(0, memoria.length());
+
 
         } catch (InputMismatchException e) {
             System.out.println("\nERRO ao inserir imóvel - dados invalidos");
@@ -98,10 +106,13 @@ public class EventoMain {
     }
     static void inserirCliente(Cliente cliente) {
         try {
-            // memoria.delete(0, memoria.length());
-
             System.out.println("Insira o ID:");
             cliente.setId(scan.nextInt());
+            if (cliente.getId() < 0) {
+                System.out.println("ID inválido");
+                System.out.println("Insira um número maior que 0:");
+                cliente.setId(scan.nextInt());
+            }
             scan.nextLine(); // com esta linha consegue ler o nome com espaços
             System.out.println("Insira o nome:");
             cliente.setNome(scan.nextLine());
@@ -126,8 +137,7 @@ public class EventoMain {
             BufferedReader arquivoEntrada;
             arquivoEntrada = new BufferedReader(new FileReader(arquivo));
             String linha = "";
-            // memoria.delete(0, memoria.length());// apaga tudo que está na variável
-            // memoria
+
             do {
                 linha = arquivoEntrada.readLine();
                 if (linha != null) {
