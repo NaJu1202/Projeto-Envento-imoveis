@@ -14,17 +14,17 @@ public class EventoMain {
         char opcao;
         Cliente cliente = new Cliente();
         Imoveis imoveis = new Imoveis();
-        System.out.println("Seja bem vindo ao evento de Imóveis!\n Digite a opção que desejar:");
+        System.out.println("\nSeja bem vindo ao evento de Imóveis!\n");
 
         do {
-            System.out.println("\nEscolha a opção :)");
+            System.out.println("Escolha a opção :)\n");
             System.out.println("1 - Inserir o imóvel\n" +
                     "2 - Inserir o cliente\n" +
                     "3 - Alterar cliente\n" +
                     "4 - Excluir o cliente\n" +
                     "5 - Consultar o cliente\n" +
                     "6 - Consultar o imóvel\n" +
-                    "7 - Sair do programa");
+                    "7 - Sair do programa\n");
             opcao = scan.next().charAt(0);
             switch (opcao) {
                 case '1':
@@ -67,6 +67,7 @@ public class EventoMain {
 
     static void inserirImoveis(Imoveis imoveis) {
         try {
+            memoria.delete(0, memoria.length());
             System.out.println("Insira o Código do imovel: ");
             imoveis.setCodigo(scan.nextInt());
             System.out.println("Insira a Cidade: ");
@@ -80,18 +81,19 @@ public class EventoMain {
             gravarArquivo("imoveis.txt"); // grava alteração no HD
 
         } catch (Exception e) {
-            System.out.println("\nERRO de inserção");
+            System.out.println("\nERRO ao inserir imóvel");
         }
     }
 
     static void inserirCliente(Cliente cliente) {
         try {
+            memoria.delete(0, memoria.length());
             System.out.println("Insira o ID");
             cliente.setId(scan.nextInt());
             System.out.println("Insira o nome");
             cliente.setNome(scan.next());
             System.out.println("Insira o telefone");
-            cliente.setTelefone(scan.nextInt());
+            cliente.setTelefone(scan.next());
             System.out.println("Insira o codigo do imovel");
             cliente.setCodigoImovel(scan.nextInt());
 
@@ -99,7 +101,7 @@ public class EventoMain {
             gravarArquivo("clientes.txt"); // grava alteração no HD
 
         } catch (Exception e) {
-            System.out.println("\nERRO de inserção");
+            System.out.println("\nERRO ao inserir cliente");
         }
     }
 
@@ -154,7 +156,7 @@ public class EventoMain {
                 fim = memoria.indexOf("\n", primeiro);
                 codigoImovel = memoria.substring(primeiro, fim);
 
-                Cliente cliente_modificado = new Cliente(Integer.parseInt(id), nome, Integer.parseInt(telefone),
+                Cliente cliente_modificado = new Cliente(Integer.parseInt(id), nome, telefone,
                         Integer.parseInt(codigoImovel));
 
                 if (procura == cliente_modificado.getId()) {
@@ -165,7 +167,7 @@ public class EventoMain {
                             + "| Código do imovel: " + cliente_modificado.getCodigoImovel());
 
                     System.out.println("Entre com novo telefone:");
-                    cliente_modificado.setTelefone(scan.nextInt());
+                    cliente_modificado.setTelefone(scan.next());
 
                     memoria.replace(inicio, fim + 1, cliente_modificado.toString()); // alterar dados na memoria
                     inserirCliente(cliente_modificado); // grava alteração no HD

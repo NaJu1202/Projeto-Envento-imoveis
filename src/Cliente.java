@@ -1,17 +1,17 @@
 public class Cliente {
     private int id;
     private String nome;
-    private int telefone;
+    private String telefone;
     private int codigoImovel;
 
     public Cliente() {
         this.id = 0;
         this.nome = "";
-        this.telefone = 0;
+        this.telefone = "";
         this.codigoImovel = 0;
     }
 
-    public Cliente(int id, String nome, int telefone, int codigoImovel) {
+    public Cliente(int id, String nome, String telefone, int codigoImovel) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
@@ -27,7 +27,7 @@ public class Cliente {
         return this.nome;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return this.telefone;
     }
 
@@ -43,7 +43,7 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
