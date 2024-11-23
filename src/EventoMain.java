@@ -82,8 +82,8 @@ public class EventoMain {
             System.out.println("Insira o Código do imovel: ");
             imoveis.setCodigo(scan.nextInt());
             if (imoveis.getCodigo() < 0) {
-                System.out.println("ID inválido! O código não pode ser negativo.");
-                System.out.println("Insira um ID válido:");
+                System.out.println("Código inválido! O código não pode ser negativo.");
+                System.out.println("Insira um código válido:");
                 imoveis.setCodigo(scan.nextInt());
             }
             scan.nextLine(); // com esta linha consegue ler a cidade com espaços
