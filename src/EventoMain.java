@@ -42,7 +42,7 @@ public class EventoMain {
                 case '4':
                     break;
                 case '5':
-                    pesquiaGeralDeImoveis();
+                    pesquisaGeralDeImoveis();
                     break;
                 case '6':
                     pesquiaGeralDeClientes();
@@ -317,7 +317,7 @@ public class EventoMain {
         }
     }
 
-    public static void pesquiaGeralDeImoveis() {
+    public static void pesquisaGeralDeImoveis() {
         String codigo, cidade, uf, tipoImovel;
         int inicio, fim, ultimo, primeiro;
 
