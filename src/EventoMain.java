@@ -3,6 +3,8 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EventoMain {
@@ -21,9 +23,10 @@ public class EventoMain {
                     "2 - Inserir o cliente\n" +
                     "3 - Alterar cliente\n" +
                     "4 - Excluir o cliente\n" +
-                    "5 - Consultar o cliente\n" +
-                    "6 - Consultar o imóvel\n" +
-                    "7 - Sair do programa\n");
+                    "5 - Listar os imóveis disponiveis\n" +
+                    "6 - Listar os clientes cadastrados\n" +
+                    "7 - Consultar o cliente específico\n" +
+                    "8 - Sair do programa\n");
             opcao = scan.next().charAt(0);
             switch (opcao) {
                 case '1':
@@ -42,6 +45,9 @@ public class EventoMain {
                 case '6':
                     break;
                 case '7':
+                    consultarDadosExpecificos();
+                    break;
+                case '8':
                     System.out.println("<----- Encerrando o programa ----->");
                     break;
                 default:
@@ -50,20 +56,21 @@ public class EventoMain {
             }
         } while (opcao != '7');
     }
-
     // este método grava os dados na memória segundária(HD, pendrive)
-    public static void gravarArquivo(String arquivo, boolean append_mode) {
+    public static void gravarArquivo(String arquivo, boolean append_mode) { // append_mode = boolean, pq ao modificar
+                                                                            // dados estava dando append
         try {
             BufferedWriter arquivoSaida;
             arquivoSaida = new BufferedWriter(new FileWriter(arquivo, append_mode));
             arquivoSaida.write(memoria.toString());
             arquivoSaida.flush();
             arquivoSaida.close();
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado");
+        } catch (IOException e) {
             System.out.println("\nErro de gravacao!");
         }
     }
-
     static void inserirImoveis(Imoveis imoveis) {
         try {
             System.out.println("Insira o Código do imovel: ");
@@ -79,11 +86,12 @@ public class EventoMain {
             gravarArquivo("imoveis.txt", true); // grava alteração no HD
             memoria.delete(0, memoria.length());
 
+        } catch (InputMismatchException e) {
+            System.out.println("\nERRO ao inserir imóvel - dados invalidos");
         } catch (Exception e) {
-            System.out.println("\nERRO ao inserir imóvel");
+            System.out.println("\nERRO ao inserir imóvel - outro erro");
         }
     }
-
     static void inserirCliente(Cliente cliente) {
         try {
             System.out.println("Insira o ID");
@@ -99,17 +107,18 @@ public class EventoMain {
             gravarArquivo("clientes.txt", true); // grava alteração no HD
             memoria.delete(0, memoria.length());
 
+        } catch (InputMismatchException e) {
+            System.out.println("\nERRO ao inserir imóvel - dados invalidos");
         } catch (Exception e) {
             System.out.println("\nERRO ao inserir cliente");
         }
     }
-
     // este método server para atualizar a variável memoria com os dados que estão
     // no HD
-    static void iniciarArquivo() {
+    static void iniciarArquivo(String arquivo) {
         try {
             BufferedReader arquivoEntrada;
-            arquivoEntrada = new BufferedReader(new FileReader("clientes.txt"));
+            arquivoEntrada = new BufferedReader(new FileReader(arquivo));
             String linha = "";
             memoria.delete(0, memoria.length());// apaga tudo que está na variável memoria
             do {
@@ -125,7 +134,6 @@ public class EventoMain {
             System.out.println("\nErro de Leitura!");
         }
     }
-
     public static void alterarDadosCliente() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -133,7 +141,7 @@ public class EventoMain {
         int procura;
 
         try {
-            iniciarArquivo(); // atualizar a variavel memoria para iniciar a pesquisa
+            iniciarArquivo("clientes.txt"); // atualizar a variavel memoria para iniciar a pesquisa
 
             if (memoria.length() != 0) { // não está vazia
                 System.out.println("\nDigite o codigo para alteração:");
@@ -188,6 +196,57 @@ public class EventoMain {
             System.out.println("Erro na leitura de dados");
         } catch (Exception e) {
             System.out.println("Erro ao modificar dados");
+        }
+    }
+
+    public static void consultarDadosExpecificos() {
+        String id, nome, telefone, codigoImovel;
+        int inicio, fim, ultimo, primeiro;
+        boolean achou = false;
+        int procura;
+
+        iniciarArquivo("clientes.txt"); // atualizar a variavel memoria para iniciar a pesquisa
+
+        if (memoria.length() != 0) { // não está vazia
+            System.out.println("\nDigite o id para pesquisar:");
+            procura = scan.nextInt();
+            inicio = 0;
+
+            while ((inicio != memoria.length()) && (!achou)) {
+
+                ultimo = memoria.indexOf("\t", inicio);
+                id = memoria.substring(inicio, ultimo);
+                primeiro = ultimo + 1;
+
+                ultimo = memoria.indexOf("\t", primeiro);
+                nome = memoria.substring(primeiro, ultimo);
+                primeiro = ultimo + 1;
+
+                ultimo = memoria.indexOf("\t", primeiro);
+                telefone = memoria.substring(primeiro, ultimo);
+                primeiro = ultimo + 1;
+
+                fim = memoria.indexOf("\n", primeiro);
+                codigoImovel = memoria.substring(primeiro, fim);
+
+                Cliente cliente_pesquisa = new Cliente(Integer.parseInt(id), nome, telefone,
+                        Integer.parseInt(codigoImovel));
+
+                if (procura == cliente_pesquisa.getId()) {
+
+                    System.out.println("\nCódigo: " + cliente_pesquisa.getId() +
+                            "| Nome: " + cliente_pesquisa.getNome() + "| Telefone: "
+                            + cliente_pesquisa.getTelefone()
+                            + "| Código do imovel: " + cliente_pesquisa.getCodigoImovel());
+                    achou = true;
+                }
+                inicio = fim + 1; // continua procurando o código da pessoa
+            }
+            if (!achou) {
+                System.out.println("\ncódigo não encontrado");
+            }
+        } else {
+            System.out.println("\narquivo vazio");
         }
     }
 }
