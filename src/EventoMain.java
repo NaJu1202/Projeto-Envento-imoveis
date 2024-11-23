@@ -53,10 +53,10 @@ public class EventoMain {
     }
 
     // este método grava os dados na memória segundária(HD, pendrive)
-    public static void gravarArquivo(String arquivo) {
+    public static void gravarArquivo(String arquivo, boolean append_mode) {
         try {
             BufferedWriter arquivoSaida;
-            arquivoSaida = new BufferedWriter(new FileWriter(arquivo, true));
+            arquivoSaida = new BufferedWriter(new FileWriter(arquivo, append_mode));
             arquivoSaida.write(memoria.toString());
             arquivoSaida.flush();
             arquivoSaida.close();
@@ -67,7 +67,6 @@ public class EventoMain {
 
     static void inserirImoveis(Imoveis imoveis) {
         try {
-            memoria.delete(0, memoria.length());
             System.out.println("Insira o Código do imovel: ");
             imoveis.setCodigo(scan.nextInt());
             System.out.println("Insira a Cidade: ");
@@ -78,7 +77,8 @@ public class EventoMain {
             imoveis.setTipoImovel(scan.next());
 
             memoria.append(imoveis.toString()); // inserir uma nova linha no final
-            gravarArquivo("imoveis.txt"); // grava alteração no HD
+            gravarArquivo("imoveis.txt", true); // grava alteração no HD
+            memoria.delete(0, memoria.length());
 
         } catch (Exception e) {
             System.out.println("\nERRO ao inserir imóvel");
@@ -87,7 +87,6 @@ public class EventoMain {
 
     static void inserirCliente(Cliente cliente) {
         try {
-            memoria.delete(0, memoria.length());
             System.out.println("Insira o ID");
             cliente.setId(scan.nextInt());
             System.out.println("Insira o nome");
@@ -98,7 +97,8 @@ public class EventoMain {
             cliente.setCodigoImovel(scan.nextInt());
 
             memoria.append(cliente.toString()); // inserir uma nova linha no final
-            gravarArquivo("clientes.txt"); // grava alteração no HD
+            gravarArquivo("clientes.txt", true); // grava alteração no HD
+            memoria.delete(0, memoria.length());
 
         } catch (Exception e) {
             System.out.println("\nERRO ao inserir cliente");
@@ -133,55 +133,61 @@ public class EventoMain {
         boolean achou = false;
         int procura;
 
-        iniciarArquivo(); // atualizar a variavel memoria para iniciar a pesquisa
+        try {
+            iniciarArquivo(); // atualizar a variavel memoria para iniciar a pesquisa
 
-        if (memoria.length() != 0) { // não está vazia
-            System.out.println("\nDigite o codigo para alteração:");
-            procura = scan.nextInt();
-            inicio = 0; // inicio começa na posição 0
+            if (memoria.length() != 0) { // não está vazia
+                System.out.println("\nDigite o codigo para alteração:");
+                procura = scan.nextInt();
+                inicio = 0; // inicio começa na posição 0
 
-            while ((inicio != memoria.length()) && (!achou)) {
-                ultimo = memoria.indexOf("\t", inicio);
-                id = memoria.substring(inicio, ultimo);
+                while ((inicio != memoria.length()) && (!achou)) {
+                    ultimo = memoria.indexOf("\t", inicio);
+                    id = memoria.substring(inicio, ultimo);
 
-                primeiro = ultimo + 1;
-                ultimo = memoria.indexOf("\t", primeiro);
-                nome = memoria.substring(primeiro, ultimo);
+                    primeiro = ultimo + 1;
+                    ultimo = memoria.indexOf("\t", primeiro);
+                    nome = memoria.substring(primeiro, ultimo);
 
-                primeiro = ultimo + 1;
-                fim = memoria.indexOf("\n", primeiro);
-                telefone = memoria.substring(primeiro, fim);
+                    primeiro = ultimo + 1;
+                    ultimo = memoria.indexOf("\t", primeiro);
+                    telefone = memoria.substring(primeiro, ultimo);
 
-                primeiro = ultimo + 1;
-                fim = memoria.indexOf("\n", primeiro);
-                codigoImovel = memoria.substring(primeiro, fim);
+                    primeiro = ultimo + 1;
+                    fim = memoria.indexOf("\n", primeiro);
+                    codigoImovel = memoria.substring(primeiro, fim);
 
-                Cliente cliente_modificado = new Cliente(Integer.parseInt(id), nome, telefone,
-                        Integer.parseInt(codigoImovel));
+                    Cliente cliente_modificado = new Cliente(Integer.parseInt(id), nome, telefone,
+                            Integer.parseInt(codigoImovel));
 
-                if (procura == cliente_modificado.getId()) {
+                    if (procura == cliente_modificado.getId()) {
 
-                    System.out.println("\nCódigo: " + cliente_modificado.getId() +
-                            "| Nome: " + cliente_modificado.getNome() + "| Telefone: "
-                            + cliente_modificado.getTelefone()
-                            + "| Código do imovel: " + cliente_modificado.getCodigoImovel());
+                        System.out.println("\nCódigo: " + cliente_modificado.getId() +
+                                "| Nome: " + cliente_modificado.getNome() + "| Telefone: "
+                                + cliente_modificado.getTelefone()
+                                + "| Código do imovel: " + cliente_modificado.getCodigoImovel());
 
-                    System.out.println("Entre com novo telefone:");
-                    cliente_modificado.setTelefone(scan.next());
+                        System.out.println("Entre com novo telefone:");
+                        cliente_modificado.setTelefone(scan.next());
 
-                    memoria.replace(inicio, fim + 1, cliente_modificado.toString()); // alterar dados na memoria
-                    inserirCliente(cliente_modificado); // grava alteração no HD
-                    achou = true;
+                        memoria.replace(inicio, fim + 1, cliente_modificado.toString()); // alterar dados na memoria
+                        gravarArquivo("clientes.txt", false); // grava alteração no HD
+                        achou = true;
+                    }
+                    inicio = fim + 1; // continua procurando o código da pessoa
                 }
-                inicio = fim + 1; // continua procurando o código da pessoa
-            }
-            if (achou) {
-                System.out.println("\nalteração realizada com sucesso");
+                if (achou) {
+                    System.out.println("\nalteração realizada com sucesso");
+                } else {
+                    System.out.println("\ncódigo não encontrado");
+                }
             } else {
-                System.out.println("\ncódigo não encontrado");
+                System.out.println("\narquivo vazio");
             }
-        } else {
-            System.out.println("\narquivo vazio");
+        } catch (NumberFormatException e) {
+            System.out.println("Erro na leitura de dados");
+        } catch (Exception e) {
+            System.out.println("Erro ao modificar dados");
         }
     }
 }
