@@ -141,7 +141,7 @@ public class EventoMain {
                 procura = scan.nextInt();
                 inicio = 0; // inicio começa na posição 0
 
-                while ((inicio != memoria.length()) && (!achou)) {
+                do {
                     ultimo = memoria.indexOf("\t", inicio);
                     id = memoria.substring(inicio, ultimo);
 
@@ -175,7 +175,8 @@ public class EventoMain {
                         achou = true;
                     }
                     inicio = fim + 1; // continua procurando o código da pessoa
-                }
+                } while ((inicio != memoria.length()) && (!achou));
+
                 if (achou) {
                     System.out.println("\nalteração realizada com sucesso");
                 } else {
