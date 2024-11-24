@@ -18,8 +18,8 @@ public class EventoMain {
         System.out.println("\nSeja bem vindo ao evento de Imóveis!\n");
 
         do {
-            memoria.delete(0, memoria.length());
-            System.out.println("Escolha a opção :)\n");
+            deletarMemoria();
+            System.out.println("\nEscolha a opção :)\n");
             System.out.println("1 - Inserir o imóvel\n" +
                     "2 - Inserir o cliente\n" +
                     "3 - Alterar cliente\n" +
@@ -53,7 +53,7 @@ public class EventoMain {
                 case '8':
                     System.out.println("<----- Encerrando o programa ----->");
                     System.out.println(
-                            "   Programa feito por:\n" + "\n\tAnna Julia Aleixo\n" + "\tAnderson Moreira\n"
+                            "   \nPrograma feito por:\n" + "\n\tAnna Julia Aleixo\n" + "\tAnderson Moreira\n"
                                     + "\tMayara Hafez\n");
                     break;
                 default:
@@ -61,6 +61,10 @@ public class EventoMain {
                     break;
             }
         } while (opcao != '8');
+    }
+
+    public static void deletarMemoria() {
+        memoria.delete(0, memoria.length());
     }
     public static void gravarArquivo(String arquivo, boolean append_mode) { // append_mode = boolean, pq ao modificar
                                                                             // dados estava dando append
@@ -80,12 +84,15 @@ public class EventoMain {
     // ----- INSERIR DADOS -----
     static void inserirImoveis(Imoveis imoveis) {
         try {
+            deletarMemoria();
             System.out.println("Insira o Código do imovel: ");
             imoveis.setCodigo(scan.nextInt());
             if (imoveis.getCodigo() < 0) {
                 System.out.println("Código inválido! O código não pode ser negativo.");
-                System.out.println("Insira um código válido:");
-                imoveis.setCodigo(scan.nextInt());
+                while (imoveis.getCodigo() < 0) {
+                    System.out.println("Insira um código válido:");
+                    imoveis.setCodigo(scan.nextInt());
+                }
             }
             scan.nextLine(); // com esta linha consegue ler a cidade com espaços
             System.out.println("Insira a Cidade: ");
@@ -95,6 +102,17 @@ public class EventoMain {
             System.out.println("Insira o Tipo do imóvel:");
             imoveis.setTipoImovel(scan.next());
 
+            if (!imoveis.getTipoImovel().equalsIgnoreCase("Apartamento")
+                    && !imoveis.getTipoImovel().equalsIgnoreCase("Casa")) {
+                System.out.println("Tipo do imóvel inválido - apenas APARTAMENTO ou CASA");
+                while (!imoveis.getTipoImovel().equalsIgnoreCase("Apartamento")
+                        && !imoveis.getTipoImovel().equalsIgnoreCase("Casa")) {
+                    System.out.println("Insira um tipo válido: [Apartamento/Casa]");
+                    imoveis.setTipoImovel(scan.next()); // Assume que 'scan' é um Scanner para entrada do usuário
+                }
+            }
+
+            deletarMemoria();
             memoria.append(imoveis.toString());
             gravarArquivo("imoveis.txt", true);
 
@@ -107,21 +125,26 @@ public class EventoMain {
     }
     static void inserirCliente(Cliente cliente) {
         try {
+            deletarMemoria();
             System.out.println("Insira o ID:");
             cliente.setId(scan.nextInt());
             if (cliente.getId() < 0) {
-                System.out.println("ID inválido");
-                System.out.println("Insira um número maior que 0:");
-                cliente.setId(scan.nextInt());
+                System.out.println("ID inválido! O id não pode ser negativo.");
+                while (cliente.getId() < 0) {
+                    System.out.println("Insira um código válido:");
+                    cliente.setId(scan.nextInt());
+                }
             }
             scan.nextLine(); // com esta linha consegue ler o nome com espaços
             System.out.println("Insira o nome:");
             cliente.setNome(scan.nextLine());
             System.out.println("Insira o telefone:");
             cliente.setTelefone(scan.next());
-            System.out.println("Insira o codigo do imovel:");
+            System.out.println("Insira o codigo do imovel: [QUE ESTEJA NA LISTA]");
+            pesquisaGeralDeImoveis();
             cliente.setCodigoImovel(scan.nextInt());
 
+            deletarMemoria();
             memoria.append(cliente.toString());
             gravarArquivo("clientes.txt", true);
 
@@ -136,6 +159,7 @@ public class EventoMain {
     // ----- INICIAR ARQUIVO -----
     static void iniciarArquivo(String arquivo) {
         try {
+            deletarMemoria();
             BufferedReader arquivoEntrada;
             arquivoEntrada = new BufferedReader(new FileReader(arquivo));
             String linha = "";
@@ -153,6 +177,7 @@ public class EventoMain {
             System.out.println("\nErro de Leitura!");
         }
     }
+    // ----- FIM DA INICIAR ARQUIVO -----
 
     // ----- ALTERAÇÕES DE DADOS -----
     public static void alterarDadosCliente() {
@@ -324,6 +349,7 @@ public class EventoMain {
             System.out.println("\narquivo vazio");
         }
     }
+
     // ----- FIM DA LIGAÇÃO DE DADOS -----
 
     // ----- PESQUISA DE DADOS -----

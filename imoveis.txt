@@ -3,3 +3,6 @@
 3	Nova Almeida	ES	Casa
 4	Rio de Janeiro	RJ	Casa
 5	S�o Paulo	SP	Casa
+6	Cariacica	ES	Casa
+7	Serra	ES	Apartamento
+8	Guarapari	ES	Casa
