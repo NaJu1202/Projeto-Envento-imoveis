@@ -8,7 +8,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EventoMain {
-    static StringBuffer memoria = new StringBuffer();
+    static StringBuffer memoria = new StringBuffer(); // memoria do arquivo
     static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -86,7 +86,16 @@ public class EventoMain {
         try {
             deletarMemoria();
             System.out.println("Insira o Código do imovel: ");
-            imoveis.setCodigo(scan.nextInt());
+            int codigoImovel = scan.nextInt();
+
+            // Verificar se o código do imóvel já existe
+            iniciarArquivo("imoveis.txt");
+            while (memoria.indexOf(String.valueOf(codigoImovel)) != -1) {
+                System.out.println("Código do imóvel já existe! Insira um código diferente:");
+                codigoImovel = scan.nextInt();
+            }
+            imoveis.setCodigo(codigoImovel);
+
             if (imoveis.getCodigo() < 0) {
                 System.out.println("Código inválido! O código não pode ser negativo.");
                 while (imoveis.getCodigo() < 0) {
@@ -94,7 +103,8 @@ public class EventoMain {
                     imoveis.setCodigo(scan.nextInt());
                 }
             }
-            scan.nextLine(); // com esta linha consegue ler a cidade com espaços
+
+            scan.nextLine(); // para ler a cidade com espaços
             System.out.println("Insira a Cidade: ");
             imoveis.setCidade(scan.nextLine());
             System.out.println("Insira a UF:");
@@ -108,14 +118,13 @@ public class EventoMain {
                 while (!imoveis.getTipoImovel().equalsIgnoreCase("Apartamento")
                         && !imoveis.getTipoImovel().equalsIgnoreCase("Casa")) {
                     System.out.println("Insira um tipo válido: [Apartamento/Casa]");
-                    imoveis.setTipoImovel(scan.next()); // Assume que 'scan' é um Scanner para entrada do usuário
+                    imoveis.setTipoImovel(scan.next());
                 }
             }
 
             deletarMemoria();
             memoria.append(imoveis.toString());
             gravarArquivo("imoveis.txt", true);
-
 
         } catch (InputMismatchException e) {
             System.out.println("\nERRO ao inserir imóvel - dados invalidos");
@@ -127,29 +136,47 @@ public class EventoMain {
         try {
             deletarMemoria();
             System.out.println("Insira o ID:");
-            cliente.setId(scan.nextInt());
-            if (cliente.getId() < 0) {
-                System.out.println("ID inválido! O id não pode ser negativo.");
-                while (cliente.getId() < 0) {
-                    System.out.println("Insira um código válido:");
-                    cliente.setId(scan.nextInt());
-                }
+            int idCliente = scan.nextInt();
+
+            // Verificar se o ID do cliente já existe
+            iniciarArquivo("clientes.txt");
+            while ((memoria.indexOf(String.valueOf(idCliente)) != -1) || (idCliente < 0)) {
+                System.out.println("ID já existente ou menor que zero! Insira um ID diferente:");
+                idCliente = scan.nextInt();
             }
-            scan.nextLine(); // com esta linha consegue ler o nome com espaços
+            cliente.setId(idCliente);
+
+            scan.nextLine(); // para ler o nome com espaços
             System.out.println("Insira o nome:");
             cliente.setNome(scan.nextLine());
+
             System.out.println("Insira o telefone:");
-            cliente.setTelefone(scan.next());
-            System.out.println("Insira o codigo do imovel: [QUE ESTEJA NA LISTA]");
+            String telefone = scan.next();
+            iniciarArquivo("clientes.txt");
+            while (memoria.indexOf(telefone) != -1) { // Verificar se o telefone já está no arquivo
+                System.out.println("Telefone já existente! Insira um telefone diferente:");
+                telefone = scan.next();
+            }
+            cliente.setTelefone(telefone);
+
+            System.out.println("Insira o código do imóvel: [QUE ESTEJA NA LISTA]");
+            // Verificar se o código do imóvel informado existe
             pesquisaGeralDeImoveis();
-            cliente.setCodigoImovel(scan.nextInt());
+            int codigoImovel = scan.nextInt();
+            iniciarArquivo("imoveis.txt");
+            while (memoria.indexOf(String.valueOf(codigoImovel)) == -1) {
+                System.out.println("Código do imóvel não encontrado. Insira um código válido:");
+                pesquisaGeralDeImoveis();
+                codigoImovel = scan.nextInt();
+            }
+            cliente.setCodigoImovel(codigoImovel);
 
             deletarMemoria();
             memoria.append(cliente.toString());
             gravarArquivo("clientes.txt", true);
 
         } catch (InputMismatchException e) {
-            System.out.println("\nERRO ao inserir imóvel - dados invalidos");
+            System.out.println("\nERRO ao inserir cliente - dados invalidos");
         } catch (Exception e) {
             System.out.println("\nERRO ao inserir cliente");
         }
