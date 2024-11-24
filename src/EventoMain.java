@@ -153,7 +153,7 @@ public class EventoMain {
             cliente.setNome(scan.nextLine());
 
             System.out.println("Insira o telefone");
-            cliente.setTelefone(scan.nextInt());
+            cliente.setTelefone(scan.next());
 
             System.out.println("Insira o código do imóvel: [QUE ESTEJA NA LISTA]");
             // Verificar se o código do imóvel informado existe
