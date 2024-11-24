@@ -107,8 +107,10 @@ public class EventoMain {
             scan.nextLine(); // para ler a cidade com espaços
             System.out.println("Insira a Cidade: ");
             imoveis.setCidade(scan.nextLine());
+            
             System.out.println("Insira a UF:");
             imoveis.setUf(scan.next());
+            
             System.out.println("Insira o Tipo do imóvel:");
             imoveis.setTipoImovel(scan.next());
 
@@ -150,14 +152,8 @@ public class EventoMain {
             System.out.println("Insira o nome:");
             cliente.setNome(scan.nextLine());
 
-            System.out.println("Insira o telefone:");
-            String telefone = scan.next();
-            iniciarArquivo("clientes.txt");
-            while (memoria.indexOf(telefone) != -1) { // Verificar se o telefone já está no arquivo
-                System.out.println("Telefone já existente! Insira um telefone diferente:");
-                telefone = scan.next();
-            }
-            cliente.setTelefone(telefone);
+            System.out.println("Insira o telefone");
+            cliente.setTelefone(scan.nextInt());
 
             System.out.println("Insira o código do imóvel: [QUE ESTEJA NA LISTA]");
             // Verificar se o código do imóvel informado existe
