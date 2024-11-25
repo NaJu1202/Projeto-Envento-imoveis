@@ -1,5 +1,2 @@
-1	Anna Julia	888888	1
-2	Anderson Moreira	55555555	2
-3	Mayara Hafez	111111111	4
-4	Hadassa Hafez	1111111111	2
-5	Lucas	0000000	8
+3	Mayara	54543	3
+2	Anderson	555-444	3

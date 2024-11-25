@@ -40,6 +40,7 @@ public class EventoMain {
                     alterarDadosCliente();
                     break;
                 case '4':
+                    excluirDados();
                     break;
                 case '5':
                     pesquisaGeralDeImoveis();
@@ -91,7 +92,7 @@ public class EventoMain {
             // Verificar se o código do imóvel já existe
             iniciarArquivo("imoveis.txt");
             while (memoria.indexOf(String.valueOf(codigoImovel)) != -1) {
-                System.out.println("Código do imóvel já existe! Insira um código diferente:");
+                System.out.println("Código do imóvel já existe ou menor que zero! Insira um código diferente:");
                 codigoImovel = scan.nextInt();
             }
             imoveis.setCodigo(codigoImovel);
@@ -137,16 +138,14 @@ public class EventoMain {
     static void inserirCliente(Cliente cliente) {
         try {
             deletarMemoria();
-            System.out.println("Insira o ID:");
-            int idCliente = scan.nextInt();
 
+            System.out.println("Insira o ID:");
+            cliente.setId(scan.nextInt());
             // Verificar se o ID do cliente já existe
-            iniciarArquivo("clientes.txt");
-            while ((memoria.indexOf(String.valueOf(idCliente)) != -1) || (idCliente < 0)) {
-                System.out.println("ID já existente ou menor que zero! Insira um ID diferente:");
-                idCliente = scan.nextInt();
+            while (cliente.getId() < 0) {
+                System.out.println("ID menor que zero! Insira um ID diferente:");
+                cliente.setId(scan.nextInt());
             }
-            cliente.setId(idCliente);
 
             scan.nextLine(); // para ler o nome com espaços
             System.out.println("Insira o nome:");
@@ -155,13 +154,15 @@ public class EventoMain {
             System.out.println("Insira o telefone");
             cliente.setTelefone(scan.next());
 
-            System.out.println("Insira o código do imóvel: [QUE ESTEJA NA LISTA]");
+            System.out.println("\nInsira um código de imóvel: [QUE ESTEJA NA LISTA]\n");
             // Verificar se o código do imóvel informado existe
             pesquisaGeralDeImoveis();
+            System.out.println("\nDigite o código do imóvel:");
             int codigoImovel = scan.nextInt();
+
             iniciarArquivo("imoveis.txt");
             while (memoria.indexOf(String.valueOf(codigoImovel)) == -1) {
-                System.out.println("Código do imóvel não encontrado. Insira um código válido:");
+                System.out.println("\nCódigo do imóvel não encontrado. Insira um código válido:\n");
                 pesquisaGeralDeImoveis();
                 codigoImovel = scan.nextInt();
             }
@@ -458,4 +459,61 @@ public class EventoMain {
         }
     }
     // ----- FIM DAS PESQUISAS DE DADOS -----
+    // ------ EXCLUSÃO DE DADOS ---------
+    public static void excluirDados() {
+        String id, nome, telefone, codigoImovel;
+        int inicio, fim, ultimo, primeiro, procura;
+        boolean achou = false;
+        char resp;
+
+        iniciarArquivo("clientes.txt"); // atualizar a variavel memoria para iniciar a pesquisa
+
+        if (memoria.length() != 0) { // não está vazia
+            System.out.println("\nDigite o codigo para exclusão:");
+            procura = scan.nextInt();
+            inicio = 0; // inicio começa na posição 0 da variável memoria
+
+            while ((inicio != memoria.length()) && (!achou)) {
+
+                ultimo = memoria.indexOf("\t", inicio);
+                id = memoria.substring(inicio, ultimo);
+                primeiro = ultimo + 1;
+
+                ultimo = memoria.indexOf("\t", primeiro);
+                nome = memoria.substring(primeiro, ultimo);
+                primeiro = ultimo + 1;
+
+                ultimo = memoria.indexOf("\t", primeiro);
+                telefone = memoria.substring(primeiro, ultimo);
+                primeiro = ultimo + 1;
+
+                fim = memoria.indexOf("\n", primeiro);
+                codigoImovel = memoria.substring(primeiro, fim);
+
+                Cliente cliente = new Cliente(Integer.parseInt(id), nome, telefone, Integer.parseInt(codigoImovel));
+
+                if (procura == cliente.getId()) {
+                    System.out.println("Deseja excluir?" + "\n" + "Digite S ou N" + "\n\n" +
+                            "Código: " + cliente.getId() + " nome: " + cliente.getNome() + " telefone: "
+                            + cliente.getTelefone());
+                    resp = Character.toUpperCase(scan.next().charAt(0));
+                    if (resp == 'S') {
+                        memoria.delete(inicio, fim + 1);
+                        System.out.println("Registro excluido.");
+                        gravarArquivo("clientes.txt", false);
+                    } else {
+                        System.out.println("Exclusão cancelada.");
+                    }
+                    achou = true;
+                }
+                inicio = fim + 1; // continua procurando o código da pessoa
+            }
+            if (!achou) {
+                System.out.println("\ncódigo não encontrado");
+            }
+        } else {
+            System.out.println("\narquivo vazio");
+        }
+    }
+    // ------ FIM DA EXCLUSÃO DE DADOS ---------
 }
