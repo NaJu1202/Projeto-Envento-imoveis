@@ -158,7 +158,7 @@ public class EventoMain {
             System.out.println("Insira o nome:");
             cliente.setNome(scan.nextLine());
 
-            System.out.println("Insira o telefone");
+            System.out.println("Insira o telefone:");
             cliente.setTelefone(scan.next());
 
             System.out.println("\nInsira um código de imóvel: [QUE ESTEJA NA LISTA]\n");
