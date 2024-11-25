@@ -1,3 +1,4 @@
 1	Vila Velha	ES	casa
 3	Vila Velha	ES	Apartamento
 2	Viana	ES	Casa
+80	serra	es	casa
