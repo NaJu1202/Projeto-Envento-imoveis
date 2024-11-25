@@ -56,8 +56,10 @@ public class EventoMain {
                 }
             } while (opcao != '8');
             scan.close();
+        } catch (NoSuchElementException e) {
+            System.out.println("O usuario preferiu não digitar nada");
         } catch (Exception e) {
-            System.out.println("Erro ao ler opção");
+            System.out.println("Erro ao ler opção ou o usuario preferiu não fazer nada");
         }
     }
 
@@ -90,6 +92,7 @@ public class EventoMain {
             System.out.println("\nErro de gravacao!");
         }
     }
+
     static void inserirImoveis(Imoveis imoveis) {
         try {
             deletarMemoria();
@@ -114,10 +117,10 @@ public class EventoMain {
             scan.nextLine();
             System.out.println("Insira a Cidade: ");
             imoveis.setCidade(scan.nextLine());
-            
+
             System.out.println("Insira a UF:");
             imoveis.setUf(scan.next());
-            
+
             System.out.println("Insira o Tipo do imóvel:");
             imoveis.setTipoImovel(scan.next());
 
@@ -136,13 +139,14 @@ public class EventoMain {
             gravarArquivo("imoveis.txt", true);
 
         } catch (InputMismatchException e) {
-            System.out.println("\nERRO ao inserir imóvel - dados invalidos");
-        } catch (NumberFormatException e) {
-            System.out.println("\nERRO ao inserir imóvel - dados invalidos");
+            System.out.println("\nERRO ao inserir imóvel - dados inseridos invalidos");
+            scan.nextLine();
         } catch (Exception e) {
             System.out.println("\nERRO ao inserir imóvel - outro erro");
+            scan.nextLine();
         }
     }
+
     static void inserirCliente(Cliente cliente) {
         try {
             deletarMemoria();
@@ -180,12 +184,13 @@ public class EventoMain {
 
         } catch (InputMismatchException e) {
             System.out.println("\nERRO ao inserir cliente - dados invalidos");
-        } catch (NumberFormatException e) {
-            System.out.println("\nERRO ao inserir imóvel - dados invalidos");
+            scan.nextLine();
         } catch (Exception e) {
             System.out.println("\nERRO ao inserir cliente");
+            scan.nextLine();
         }
     }
+
     static void iniciarArquivo(String arquivo) {
         try {
             deletarMemoria();
@@ -206,6 +211,7 @@ public class EventoMain {
             System.out.println("\nErro de Leitura!");
         }
     }
+
     public static void alterarDadosCliente() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -265,13 +271,14 @@ public class EventoMain {
                 System.out.println("\narquivo vazio");
             }
         } catch (InputMismatchException e) {
-            System.out.println("\nERRO ao modificar cliente - dados invalidos");
-        } catch (NumberFormatException e) {
-            System.out.println("Erro na leitura de dados");
+            System.out.println("\nERRO ao modificar cliente - dados inseridos invalidos");
+            scan.nextLine();
         } catch (Exception e) {
             System.out.println("Erro ao modificar dados");
+            scan.nextLine();
         }
     }
+
     public static void consultarClienteEspecifico() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -329,14 +336,13 @@ public class EventoMain {
             }
         } catch (InputMismatchException e) {
             System.out.println("Erro no tipo de opção");
-        } catch (NumberFormatException e) {
-            System.out.println("\nERRO ao inserir imóvel - dados invalidos");
-        } catch (NoSuchElementException e) {
-            System.out.println("O usuario preferiu não digitar nada");
+            scan.nextLine();
         } catch (Exception e) {
             System.out.println("Erro ao ler o dado inserido");
+            scan.nextLine();
         }
     }
+
     public static void ligarImovelAoCliente(int codigoImovel) {
         String codigo, cidade, uf, tipoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -384,6 +390,7 @@ public class EventoMain {
             System.out.println("\narquivo vazio");
         }
     }
+
     public static void pesquisaGeralDeImoveis() {
         String codigo, cidade, uf, tipoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -424,6 +431,7 @@ public class EventoMain {
             System.out.println("\narquivo vazio");
         }
     }
+
     public static void pesquiaGeralDeClientes() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro;
@@ -464,6 +472,7 @@ public class EventoMain {
             System.out.println("\narquivo vazio");
         }
     }
+
     public static void excluirDados() {
         String id, nome, telefone, codigoImovel;
         int inicio, fim, ultimo, primeiro, procura;
@@ -523,10 +532,10 @@ public class EventoMain {
             }
         } catch (InputMismatchException e) {
             System.out.println("Erro no tipo de opção");
-        } catch (NumberFormatException e) {
-            System.out.println("\nERRO ao excluir cliente - dados invalidos");
+            scan.nextLine();
         } catch (Exception e) {
             System.out.println("Erro ao ler o dado inserido");
+            scan.nextLine();
         }
     }
 }
